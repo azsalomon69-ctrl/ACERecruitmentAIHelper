@@ -2,10 +2,10 @@
 // SETTINGS – Uses shared i18n module
 // ============================================================
 
-import { loadDatabase } from 'https://b3ngz.github.io/Assets/js/dataService.js';
-import { showToast } from 'https://b3ngz.github.io/Assets/js/toast.js';
-import { applyLanguage, t } from 'https://b3ngz.github.io/Assets/js/i18n.js';
-import { showLogoutModal } from 'https://b3ngz.github.io/Assets/js/ui.js';
+import { loadDatabase } from '../Assets/js/dataService.js';
+import { showToast } from '../Assets/js/toast.js';
+import { applyLanguage, t } from '../Assets/js/i18n.js';
+import { showLogoutModal } from '../Assets/js/ui.js';
 
 let db = null;
 let currentUser = null;
@@ -346,37 +346,29 @@ function setupAppearanceDarkToggle() {
 }
 
 export default async function initSettings() {
+  loadUserFromStorage();
+  const settings = loadSettings();
+  populateProfileForm();
+  populatePreferences(settings);
+  setupTabs();
+  setupAppearanceDarkToggle();
+  setupLanguageChange(settings);
+  setupTimezoneChange(settings);
+  setupProfileSave(settings);
+  setupPreferencesSave(settings);
+  setupAppearanceSave(settings);
+  setupCalendarIntegration(settings);
+  setupLogout(settings);
+  applyLanguage();
+
   try {
     db = await loadDatabase();
-    if (!db) {
-      showToast(t('error_loading'), 'error');
-      return;
-    }
     const nameEl = document.getElementById('recruiter-name');
     if (nameEl && db.users?.length) nameEl.textContent = db.users[0].fullName;
-
-    loadUserFromStorage();
-    const settings = loadSettings();
-
-    populateProfileForm();
-    populatePreferences(settings);
-
-    setupTabs();
-    setupAppearanceDarkToggle();
-    setupLanguageChange(settings);
-    setupTimezoneChange(settings);
-    setupProfileSave(settings);
-    setupPreferencesSave(settings);
-    setupAppearanceSave(settings);
-    setupCalendarIntegration(settings);
-    setupLogout(settings); // fixed
-
-    // Apply language to the page
-    applyLanguage();
 
     console.log('✅ Settings loaded successfully');
   } catch (error) {
     console.error('Settings error:', error);
-    showToast(t('error_loading'), 'error');
+    showToast('Settings are available, but recruitment data could not be refreshed.', 'warning');
   }
 }
