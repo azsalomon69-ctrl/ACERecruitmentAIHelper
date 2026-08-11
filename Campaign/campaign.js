@@ -136,7 +136,7 @@ function renderCampaignTable(campaigns) {
             <tr class="${rowClass}" data-status="${status}">
 
                 <td>
-                    <a href="../Campaign/campaign-details.html?id=${c.id}">
+                    <a href="https://b3ngz.github.io/Campaign/campaign-details.html?id=${c.id}">
                         ${c.jobTitle}
                     </a>
                 </td>
@@ -161,7 +161,7 @@ function renderCampaignTable(campaigns) {
 
                 <td>
                     <a
-                        href="../Campaign/campaign-details.html?id=${c.id}"
+                        href="https://b3ngz.github.io/Campaign/campaign-details.html?id=${c.id}"
                         class="btn btn-secondary">
                         View
                     </a>
@@ -422,7 +422,7 @@ function compareApplicantsWithCriteria(campaignId, criteriaText) {
                        app.matchScore >= 40 ? 'badge-worth' :
                        app.matchScore >= 20 ? 'badge-possible' : 'badge-not';
     return `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border-light);">
-      <span><strong>#${index + 1}</strong> <a href="../Applicants/applicant-details.html?id=${app.id}" style="color:var(--link-color);text-decoration:none;">${app.fullName}</a></span>
+      <span><strong>#${index + 1}</strong> <a href="https://b3ngz.github.io/Applicants/applicant-details.html?id=${app.id}" style="color:var(--link-color);text-decoration:none;">${app.fullName}</a></span>
       <span><span class="badge ${scoreClass}">${app.matchScore}%</span> <span style="font-size:0.75rem;color:var(--text-muted);">(${app.matchCount}/${app.totalKeywords} keywords)</span></span>
     </div>`;
   }).join('');
@@ -706,12 +706,12 @@ async function renderCampaignDetails() {
         const rec = assessment?.recommendation || 'Not Assessed';
         const recClass = getRecommendationBadgeClass(rec);
         return `<tr>
-          <td><a href="../Applicants/applicant-details.html?id=${a.id}" style="color:var(--link-color);text-decoration:none;">${a.fullName}</a></td>
+          <td><a href="https://b3ngz.github.io/Applicants/applicant-details.html?id=${a.id}" style="color:var(--link-color);text-decoration:none;">${a.fullName}</a></td>
           <td>${a.currentPosition}</td>
           <td>${a.yearsExperience} yrs</td>
           <td>${score}</td>
           <td><span class="badge ${recClass} recommendation-preview">${rec}</span></td>
-          <td><a href="../Applicants/applicant-details.html?id=${a.id}" class="btn btn-secondary" style="padding:0.2rem 0.8rem;font-size:0.8rem;">View</a></td>
+          <td><a href="https://b3ngz.github.io/Applicants/applicant-details.html?id=${a.id}" class="btn btn-secondary" style="padding:0.2rem 0.8rem;font-size:0.8rem;">View</a></td>
         </tr>`;
       }).join('');
     }
@@ -746,7 +746,7 @@ async function populateGoogleSheetDropdown() {
 
     sheetSelect.replaceChildren(new Option('Select a spreadsheet', ''));
     spreadsheets.forEach(spreadsheet => {
-      const option = new Option(spreadsheet.id, spreadsheet.id);
+      const option = new Option(spreadsheet.name || spreadsheet.id, spreadsheet.id);
       option.dataset.sheetName = spreadsheet.name;
       sheetSelect.add(option);
     });
@@ -813,7 +813,8 @@ function setupCreateCampaignForm() {
 
             setTimeout(() => {
 
-                window.location.href = '../Campaign/campaign.html';
+                window.location.href =
+                    "/Campaign/campaign.html";
 
             }, 800);
 
